@@ -168,6 +168,11 @@ export async function findStudentByEmail(email: string): Promise<Student | null>
   return students.find((s) => s.email.toLowerCase() === email.toLowerCase()) ?? null
 }
 
+export async function findStudentById(id: string): Promise<Student | null> {
+  const students = await listStudents()
+  return students.find((s) => s.id === id) ?? null
+}
+
 export async function addStudent(s: Student) {
   await appendRow(STUDENTS_SHEET, [
     s.id,
@@ -181,6 +186,31 @@ export async function addStudent(s: Student) {
     s.role,
     s.createdAt,
   ])
+}
+
+export async function updateStudent(student: Student) {
+  const allStudents = await listStudents()
+  const index = allStudents.findIndex(s => s.id === student.id)
+  if (index === -1) throw new Error("Student not found")
+  allStudents[index] = student
+  await saveStudents(allStudents)
+}
+
+async function saveStudents(students: Student[]) {
+  const headers = ["id", "name", "regNo", "dept", "email", "passwordHash", "experienceLevel", "github", "role", "createdAt"]
+  const rows = students.map((s) => [
+    s.id,
+    s.name,
+    s.regNo,
+    s.dept,
+    s.email,
+    s.passwordHash,
+    s.experienceLevel,
+    s.github,
+    s.role,
+    s.createdAt,
+  ])
+  await updateRows(STUDENTS_SHEET, headers, rows)
 }
 
 // Teams

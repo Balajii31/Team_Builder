@@ -7,6 +7,7 @@ import {
   Users,
   Settings,
   FileText,
+  User,
 } from "lucide-react"
 
 import {
@@ -45,13 +46,17 @@ const items = [
     url: "/documents",
     icon: FileText,
   },
+  {
+    title: "Profile",
+    url: "/profile",
+    icon: User,
+  },
 ]
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <SidebarInput placeholder="Search..." />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -60,7 +65,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild size="lg">
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
