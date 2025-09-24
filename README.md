@@ -5,6 +5,7 @@ A modern web application for student team registration and management, built wit
 ## 🚀 Features
 
 - **User Authentication**: Secure login system using NextAuth.js
+- **User Profile Management**: View and update personal profile information
 - **Team Management**:
   - Create teams with invited members
   - Browse teams with available vacancies
@@ -13,6 +14,7 @@ A modern web application for student team registration and management, built wit
 - **Google Sheets Integration**: Real-time data synchronization with Google Sheets
 - **Responsive Design**: Modern UI built with Tailwind CSS and shadcn/ui components
 - **Role-based Access**: Student and admin user roles
+- **Dummy Data Population**: Development utility to populate test data
 
 ## 🛠 Tech Stack
 
@@ -106,11 +108,18 @@ A modern web application for student team registration and management, built wit
 ### Students
 - `POST /api/students/register` - Register new student
 
+### Profile
+- `GET /api/profile` - Get current user profile
+- `PUT /api/profile` - Update current user profile
+
 ### Teams
 - `POST /api/teams/create` - Create a new team
 - `GET /api/teams/list` - List all teams (filtered for students)
 - `POST /api/teams/request-join` - Request to join a team
 - `POST /api/teams/approve-request` - Approve or deny join requests
+
+### Development
+- `POST /api/populate` - Populate dummy data (development only)
 
 ### Health Check
 - `GET /api/health` - Application health status
@@ -150,12 +159,33 @@ nextjs-sheets-app/
 
 ## 🚀 Deployment
 
-### Vercel Deployment
+### Vercel Deployment (Recommended)
 
 1. **Connect Repository**: Link your GitHub repo to Vercel
-2. **Environment Variables**: Set the environment variables in Vercel dashboard
-3. **Service Account**: Upload the service account JSON as a secret file or environment variable
-4. **Deploy**: Vercel will automatically deploy on git push
+2. **Environment Variables**: Set the following in Vercel dashboard:
+   - `GOOGLE_SHEETS_ID`: Your Google Sheet ID
+   - `GOOGLE_SERVICE_ACCOUNT`: The entire service account JSON as a string
+   - `NEXTAUTH_SECRET`: A secure random string
+   - `NEXTAUTH_URL`: Your Vercel deployment URL (e.g., `https://your-app.vercel.app`)
+   - `ADMIN_EMAIL`: (Optional) Admin email for admin login
+   - `ADMIN_PASSWORD`: (Optional) Admin password
+
+3. **Deploy**: Vercel will automatically deploy on git push
+
+### Other Platform Deployments
+
+#### Netlify
+1. Connect your GitHub repo to Netlify
+2. Set environment variables in Netlify dashboard
+3. Use the build command: `npm run build`
+4. Publish directory: `.next`
+
+#### Railway/DigitalOcean App Platform
+1. Connect your GitHub repo
+2. Set environment variables
+3. Use Node.js runtime
+4. Build command: `npm run build`
+5. Start command: `npm start`
 
 ### Manual Deployment
 
@@ -168,6 +198,19 @@ nextjs-sheets-app/
    ```bash
    npm start
    ```
+
+### Environment Variables Setup
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+**Important Security Notes:**
+- Never commit `.env.local` or any files containing real credentials
+- Use environment variables in your deployment platform
+- The Google service account JSON should be stored as a single-line JSON string in the `GOOGLE_SERVICE_ACCOUNT` environment variable
 
 ## 🤝 Contributing
 
