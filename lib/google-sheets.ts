@@ -14,7 +14,18 @@ function getEnv(name: string) {
 }
 
 function getAuth() {
-  const creds = JSON.parse(fs.readFileSync("service-account.json", "utf8"))
+  // Try to get credentials from environment variable first (production)
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT
+  let creds
+
+  if (serviceAccountJson) {
+    // Production: Use environment variable
+    creds = JSON.parse(serviceAccountJson)
+  } else {
+    // Development: Use local file
+    creds = JSON.parse(fs.readFileSync("service-account.json", "utf8"))
+  }
+
   const jwt = new google.auth.JWT({
     email: creds.client_email,
     key: creds.private_key,
