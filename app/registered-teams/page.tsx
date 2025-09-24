@@ -1,6 +1,8 @@
 import { listTeamsWithVacancies } from "@/lib/google-sheets"
 import RequestJoinButton from "./request-join-button"
 
+export const dynamic = 'force-dynamic'
+
 export default async function RegisteredTeamsPage() {
   const teams = await listTeamsWithVacancies()
 

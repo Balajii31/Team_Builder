@@ -3,6 +3,8 @@ import { listTeams, listStudents, listJoinRequests } from "@/lib/google-sheets"
 import Link from "next/link"
 import { ApproveButton } from "@/components/approve-button"
 
+export const dynamic = 'force-dynamic'
+
 async function StudentDashboard({ userId, userRole }: { userId: string, userRole: string }) {
   const teams = await listTeams()
   const joinRequests = await listJoinRequests()
